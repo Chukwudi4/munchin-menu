@@ -11,16 +11,16 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 export function Detail() {
   let route = useRoute();
   let navigation = useNavigation();
-  let recipeJson = route.params?.recipe ?? "defaultValue";
-  let recipe = JSON.parse(recipeJson);
-  //let recipe = recipes[1];
+  let recipeJson = route.params?.recipe ?? "{}";// get the recipe obj passed from home in string format
+  let recipe = JSON.parse(recipeJson); // convert recipe to JSON
 
-  const [ingr, toggleIngr] = useState(true);
+  let category = route.params?.category ?? "SMOOTHIE"  //get the category name 
+
+  const [ingr, toggleIngr] = useState(false); // state to manage hiding and viewing of ingredients
   let btnText = ingr ? "Hide Ingredients" : "View Ingredients";
   return (
     <ScrollView>
-      <View style={styles.view}>
-        <Fab
+      <Fab
           position="topLeft"
           onPress={() => navigation.goBack()}
           style={{backgroundColor: '#000'}}
@@ -28,8 +28,9 @@ export function Detail() {
         >
           <Icon ios="ios-arrow-back" android="md-arrow-back" type="Ionicons" />
         </Fab>
+      <View style={styles.view}>
         <Pager style={styles.pagerStyle}>
-          {recipe.photosArray.map((item, index) => {
+          {recipe.photosArray.map((item, index) => {//display child images of viewpager
             return (
               <Image
                 key={index}
@@ -41,7 +42,7 @@ export function Detail() {
         </Pager>
 
         <Text style={styles.title}>{recipe.title}</Text>
-        <Text style={styles.category}>SMOOTHIE</Text>
+        <Text style={styles.category}>{category.toUpperCase()}</Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image
             source={require("../assets/timer.png")}
@@ -61,7 +62,7 @@ export function Detail() {
         <Text style={styles.desc}>{recipe.description}</Text>
 
         {ingr
-          ? recipe.ingredients.map((item, i) => {
+          ? recipe.ingredients.map((item, i) => {// visibility of the ingredients controlled by toggle state
               return (
                 <Text key={i}>
                   {ingredients[item[0]].name} {item[1]}

@@ -20,22 +20,20 @@ export function Home(props) {
         spacing={w(7)}
         keyExtractor={item => item.title}
         renderItem={({ item, index }) => {
-          let temp = 0;
-          categories.forEach(category =>
-            item.categoryId == category.id ? (temp = category.name) : category
-          );
+          let temp = categories.find(category => // get the category name of the recipe and assign to temp
+            item.categoryId == category.id
+          ).name;
           return (
             <TouchableOpacity
-              key={index}
               onPress={() =>
-                navigation.navigate("Detail", { recipe: JSON.stringify(item) })
+                navigation.navigate("Detail", { recipe: JSON.stringify(item), category: temp })
               }
             >
               <Card
                 title={item.title}
                 url={item.photo_url}
                 subtitle={temp}
-                cardStyle={{ width: w(41), height: h(30) }}
+                cardStyle={styles.cardStyle}
               />
             </TouchableOpacity>
           );
@@ -46,30 +44,8 @@ export function Home(props) {
 }
 
 export const styles = StyleSheet.create({
-  itemView: {
-    width: w(41),
-    height: h(30),
-    borderRadius: w(2),
-    borderColor: "#000",
-    borderWidth: w(0),
-    justifyContent: "flex-start",
-    alignItems: "center",
-    elevation: 1
-  },
-  itemImage: {
-    width: "100%",
-    height: "70%",
-    borderRadius: w(2)
-  },
-  itemTitle: {
-    fontSize: w(4),
-    paddingTop: w(2),
-    fontWeight: "bold",
-    textAlign: "center",
-    width: "90%"
-  },
-  itemSubtitle: {
-    fontSize: w(3),
-    textAlign: "center"
-  }
+    cardStyle: { 
+      width: w(41), 
+      height: h(30) 
+    }
 });
