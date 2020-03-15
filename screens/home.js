@@ -8,7 +8,11 @@ import {
 } from "react-native-responsive-screen";
 import { Card } from "../component/card";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 export function Home(props) {
+
+  const navigation = useNavigation();
+
   return (
     <View>
       <FlatGrid
@@ -22,7 +26,7 @@ export function Home(props) {
             item.categoryId == category.id ? (temp = category.name) : category
           );
           return (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=> navigation.navigate('Detail', {recipe: JSON.stringify(item)})} >
                   <Card
                     title={item.title}
                     url={item.photo_url}

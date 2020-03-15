@@ -6,15 +6,28 @@ import {
   heightPercentageToDP as h
 } from "react-native-responsive-screen";
 import Pager from "@react-native-community/viewpager";
-import { Button } from "native-base";
+import { Button, Fab, Icon } from "native-base";
+import { useRoute, useNavigation } from "@react-navigation/native";
 export function Detail() {
-  let recipe = recipes[1];
+  let route = useRoute();
+  let navigation = useNavigation();
+  let recipeJson = route.params?.recipe ?? "defaultValue";
+  let recipe = JSON.parse(recipeJson);
+  //let recipe = recipes[1];
 
   const [ingr, toggleIngr] = useState(true);
   let btnText = ingr ? "Hide Ingredients" : "View Ingredients";
   return (
     <ScrollView>
       <View style={styles.view}>
+        <Fab
+          position="topLeft"
+          onPress={() => navigation.goBack()}
+          style={{backgroundColor: '#000'}}
+          containerStyle={styles.fabStyle}
+        >
+          <Icon ios="ios-arrow-back" android="md-arrow-back" type="Ionicons" />
+        </Fab>
         <Pager style={styles.pagerStyle}>
           {recipe.photosArray.map((item, index) => {
             return (
@@ -88,5 +101,11 @@ const styles = StyleSheet.create({
   desc: {
     width: w(90),
     marginVertical: w(5)
+  },
+  fabStyle: {
+    color: "#fff",
+    zIndex: 111,
+    top: w(15),
+    padding: w(1)
   }
 });
