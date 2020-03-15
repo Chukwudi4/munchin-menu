@@ -10,7 +10,6 @@ import { Card } from "../component/card";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 export function Home(props) {
-
   const navigation = useNavigation();
 
   return (
@@ -26,14 +25,19 @@ export function Home(props) {
             item.categoryId == category.id ? (temp = category.name) : category
           );
           return (
-              <TouchableOpacity onPress={()=> navigation.navigate('Detail', {recipe: JSON.stringify(item)})} >
-                  <Card
-                    title={item.title}
-                    url={item.photo_url}
-                    subtitle={temp}
-                    cardStyle={{ width: w(41), height: h(30) }}
-                  />
-              </TouchableOpacity>
+            <TouchableOpacity
+              key={index}
+              onPress={() =>
+                navigation.navigate("Detail", { recipe: JSON.stringify(item) })
+              }
+            >
+              <Card
+                title={item.title}
+                url={item.photo_url}
+                subtitle={temp}
+                cardStyle={{ width: w(41), height: h(30) }}
+              />
+            </TouchableOpacity>
           );
         }}
       />
