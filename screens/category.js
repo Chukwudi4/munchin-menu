@@ -8,12 +8,7 @@ import {
   heightPercentageToDP as h
 } from "react-native-responsive-screen";
 
-export function Category() {
-  function fetchCategoryNum(num) {
-    //recipes.forEach((item, index)=> )
-  }
-
-  fetchCategoryNum();
+export function Category() { //displays the list of categories in a grid
 
   return (
     <View style={styles.view}>
@@ -30,11 +25,7 @@ export function Category() {
               title={item.name}
               url={item.photo_url}
               subtitle={`${num} recipes`}
-              cardStyle={{
-                width: w(90),
-                height: h(25),
-                marginVertical: w(3)
-              }}
+              cardStyle={styles.cardStyle}
             />
           );
         }}
@@ -47,5 +38,10 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     alignItems: "center"
+  },
+  cardStyle: {
+    width: w(90),
+    height: h(30),
+    marginVertical: w(3)
   }
 });
