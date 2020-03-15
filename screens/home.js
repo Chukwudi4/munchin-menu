@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FlatGrid } from "react-native-super-grid";
-import { recipes, categories } from "../data";
-import { View, Image, StyleSheet, Text } from "react-native";
+//import { recipes, categories } from "../data";
+import { View, StyleSheet } from "react-native";
 import {
   widthPercentageToDP as w,
   heightPercentageToDP as h
@@ -9,13 +9,38 @@ import {
 import { Card } from "../component/card";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { getFirebase } from "../firebase/firebase";
 export function Home(props) {
   const navigation = useNavigation();
+  const [recipeList,updateRecipeList] = useState([])
+  const [categories, updateCategories] = useState([])
+  const [isLoading, setLoading] = useState(false)
+
+  console.ignoredYellowBox = [
+    'Setting a timer'
+    ];
+
+  useEffect(()=>{
+    loadList()
+  }, [navigation])
+
+  function loadList(){
+    setLoading(true)
+    let db = getFirebase().firestore();
+    let ref = db.collection('data').doc('data')
+
+    ref.get().then(item => {
+      updateCategories(item.data().categories)
+      updateRecipeList(item.data().recipes)
+      setLoading(false)
+    })
+    
+  }
 
   return (
     <View>
       <FlatGrid
-        items={recipes}
+        items={recipeList}
         itemDimension={w(35)}
         spacing={w(7)}
         keyExtractor={item => item.title}
