@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { categories, recipes } from "../data";
 import { Card } from "../component/card";
 import {
   widthPercentageToDP as w,
