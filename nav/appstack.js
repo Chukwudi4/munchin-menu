@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Home } from "../screens/home";
 import { Category } from "../screens/category";
 import { Detail } from "../screens/detail";
+import { Tailor } from '../screens/tailored';
 import { Icon } from "native-base";
 import {
     widthPercentageToDP as w,
@@ -44,6 +45,10 @@ export function AppStack() {
         component={Detail}
         name="Detail"
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={Tailor}
+        name="Tailor"
       />
     </Stack.Navigator>
   );
