@@ -46,9 +46,7 @@ export const Tailor = observer((props) => {
             <TouchableOpacity
               containerStyle={styles.toucher}
               onPress={() =>
-                {   console.warn(item.recipeId)
-                    navigation.navigate("Detail", { recipeId: `${data.recipes.indexOf(item)}`, category: temp })
-                }
+                  navigation.navigate("Detail", { recipeId: `${data.recipes.indexOf(item)}`, category: temp })
               }
             >
               <Card
