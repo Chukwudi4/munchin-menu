@@ -12,16 +12,15 @@ export function Detail() {
   const route = useRoute();
   const navigation = useNavigation();
 
-  const recipeId = route.params?.recipe ?? "0";// get id of recipe
+  const recipeId = route.params?.recipeId ?? "0";// get id of recipe
   const id = parseInt(recipeId)
   const recipe = data.recipes[id]; // fettch recipe using the recipeId
-
-  const ingredients = data.ingredients
 
   let category = route.params?.category ?? "SMOOTHIE"  //get the category name 
 
   const [ingr, toggleIngr] = useState(false); // state to manage hiding and viewing of ingredients
   let btnText = ingr ? "Hide Ingredients" : "View Ingredients";
+  
   return (
     <ScrollView>
       <Fab
