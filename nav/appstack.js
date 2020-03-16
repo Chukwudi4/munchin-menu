@@ -8,6 +8,7 @@ import {
     widthPercentageToDP as w,
     heightPercentageToDP as h
   } from "react-native-responsive-screen";
+import { data } from "../util/dataState";
 
 const Stack = createStackNavigator();
 
@@ -22,7 +23,7 @@ export function AppStack() {
           headerLeft: () => (
             <Icon
               ios="ios-menu"
-              onPress={() => navigation.navigate("Category")}
+              onPress={() => data.recipes.length==0? alert("No data,Click on the refresh button") : navigation.navigate("Category")}
               style={{marginLeft: w(3)}}
               android="md-menu"
               type="Ionicons"
