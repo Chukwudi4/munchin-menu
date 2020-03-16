@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { Card } from "../component/card";
 import {
@@ -7,8 +7,11 @@ import {
   heightPercentageToDP as h
 } from "react-native-responsive-screen";
 import { data } from "../util/dataState";
+import { useNavigation } from "@react-navigation/native";
 
 export function Category() { //displays the list of categories in a grid
+
+  let navigation = useNavigation();
 
   return (
     <View style={styles.view}>
@@ -21,12 +24,16 @@ export function Category() { //displays the list of categories in a grid
             recipe.categoryId == item.id ? num++ : (num)
           );
           return (
-            <Card
-              title={item.name}
-              url={item.photo_url}
-              subtitle={`${num} recipes`}
-              cardStyle={styles.cardStyle}
-            />
+            <TouchableOpacity
+              onPress={()=> navigation.navigate('Tailor', {category: `${item.name}`, categoryId: `${item.id}`})}
+            >
+              <Card
+                title={item.name}
+                url={item.photo_url}
+                subtitle={`${num} recipes`}
+                cardStyle={styles.cardStyle}
+              />
+            </TouchableOpacity>
           );
         }}
       />
