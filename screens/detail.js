@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { recipes, ingredients } from "../data";
 import { StyleSheet, View, Image, Text, ScrollView } from "react-native";
 import {
   widthPercentageToDP as w,
@@ -8,11 +7,16 @@ import {
 import Pager from "@react-native-community/viewpager";
 import { Button, Fab, Icon } from "native-base";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import { data } from "../util/dataState";
 export function Detail() {
-  let route = useRoute();
-  let navigation = useNavigation();
-  let recipeJson = route.params?.recipe ?? "{}";// get the recipe obj passed from home in string format
-  let recipe = JSON.parse(recipeJson); // convert recipe to JSON
+  const route = useRoute();
+  const navigation = useNavigation();
+
+  const recipeId = route.params?.recipe ?? "0";// get id of recipe
+  const id = parseInt(recipeId)
+  const recipe = data.recipes[id]; // fettch recipe using the recipeId
+
+  const ingredients = data.ingredients
 
   let category = route.params?.category ?? "SMOOTHIE"  //get the category name 
 
@@ -59,17 +63,19 @@ export function Detail() {
           <Text>{btnText}</Text>
         </Button>
 
-        <Text style={styles.desc}>{recipe.description}</Text>
-
         {ingr
           ? recipe.ingredients.map((item, i) => {// visibility of the ingredients controlled by toggle state
               return (
                 <Text key={i}>
-                  {ingredients[item[0]].name} {item[1]}
+                  {data.ingredients[item.id].name} {item.qty}
                 </Text>
               );
             })
           : null}
+
+        <Text style={styles.desc}>{recipe.description}</Text>
+
+        
       </View>
     </ScrollView>
   );

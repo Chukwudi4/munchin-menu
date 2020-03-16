@@ -7,17 +7,18 @@ import {
   widthPercentageToDP as w,
   heightPercentageToDP as h
 } from "react-native-responsive-screen";
+import { data } from "../util/dataState";
 
 export function Category() { //displays the list of categories in a grid
 
   return (
     <View style={styles.view}>
       <FlatList
-        data={categories}
-        keyExtractor={item => item.name}
+        data={data.categories}
+        keyExtractor={item => item.photo_url}
         renderItem={({ item, index }) => {
           let num = 0;
-          recipes.forEach((recipe, index) =>
+          data.recipes.forEach((recipe, index) =>
             recipe.categoryId == item.id ? num++ : (num)
           );
           return (

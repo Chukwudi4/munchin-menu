@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { FlatGrid } from "react-native-super-grid";
-//import { recipes, categories } from "../data";
 import { View, StyleSheet } from "react-native";
 import {
   widthPercentageToDP as w,
@@ -10,10 +9,12 @@ import { Card } from "../component/card";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { getFirebase } from "../firebase/firebase";
-export function Home(props) {
+import { data } from "../util/dataState";
+import Loader from 'react-native-loading-spinner-overlay'
+import { observer } from "mobx-react";
+
+export const Home = observer((props) => {
   const navigation = useNavigation();
-  const [recipeList,updateRecipeList] = useState([])
-  const [categories, updateCategories] = useState([])
   const [isLoading, setLoading] = useState(false)
 
   console.ignoredYellowBox = [
@@ -30,28 +31,38 @@ export function Home(props) {
     let ref = db.collection('data').doc('data')
 
     ref.get().then(item => {
-      updateCategories(item.data().categories)
-      updateRecipeList(item.data().recipes)
+      
+      if (item.exists) {
+        data.categories.length = 0;
+        data.recipes.length = 0;
+        data.ingredients.length = 0;
+        data.categories.push(...item.data().categories)
+        data.recipes.push(...item.data().recipes)
+        data.ingredients.push(...item.data().ingredients) 
+      }
       setLoading(false)
-    })
+    }).catch(error=> setLoading(false))
     
   }
 
   return (
     <View>
+      <Loader
+        visible={isLoading}
+      />
       <FlatGrid
-        items={recipeList}
+        items={data.recipes}
         itemDimension={w(35)}
         spacing={w(7)}
         keyExtractor={item => item.title}
         renderItem={({ item, index }) => {
-          let temp = categories.find(category => // get the category name of the recipe and assign to temp
-            item.categoryId == category.id
+          let temp = data.categories.find(category => // get the category name of the recipe and assign to temp
+              item.categoryId == category.id
           ).name;
           return (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("Detail", { recipe: JSON.stringify(item), category: temp })
+                navigation.navigate("Detail", { recipeId: `${index}`, category: temp })
               }
             >
               <Card
@@ -66,7 +77,7 @@ export function Home(props) {
       />
     </View>
   );
-}
+})
 
 export const styles = StyleSheet.create({
     cardStyle: { 
