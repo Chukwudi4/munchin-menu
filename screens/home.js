@@ -12,6 +12,7 @@ import { getFirebase } from "../firebase/firebase";
 import { data } from "../util/dataState";
 import Loader from 'react-native-loading-spinner-overlay'
 import { observer } from "mobx-react";
+import { Button, Icon, Fab } from "native-base";
 
 export const Home = observer((props) => {
   const navigation = useNavigation();
@@ -41,8 +42,33 @@ export const Home = observer((props) => {
         data.ingredients.push(...item.data().ingredients) 
       }
       setLoading(false)
-    }).catch(error=> setLoading(false))
+    }).catch(error=> {
+      data.categories.length = 0;
+      data.recipes.length = 0;
+      data.ingredients.length = 0;
+      setLoading(false)
+    })
     
+  }
+
+  if(data.recipes.length== 0){
+    return(
+      <View style={{alignItems: "center", justifyContent:"center", flex: 1}} >
+        <Loader
+          visible={isLoading}
+        />
+        <Fab
+          position='bottomLeft'
+          onPress={()=> loadList()}
+        >
+          <Icon
+            name='reload'
+            type='MaterialCommunityIcons'
+            onPress={()=> loadList()}
+          />
+        </Fab>
+      </View>
+    )
   }
 
   return (
@@ -61,6 +87,7 @@ export const Home = observer((props) => {
           ).name;
           return (
             <TouchableOpacity
+              containerStyle={styles.toucher}
               onPress={() =>
                 navigation.navigate("Detail", { recipeId: `${index}`, category: temp })
               }
@@ -82,6 +109,12 @@ export const Home = observer((props) => {
 export const styles = StyleSheet.create({
     cardStyle: { 
       width: w(41), 
-      height: h(30) 
+      height: h(30),
+      elevation: 2
+    },
+    toucher: {
+      alignItems: "center", 
+      width: w(42),
+      borderRadius: w(2)
     }
 });
