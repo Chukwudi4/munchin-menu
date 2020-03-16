@@ -22,7 +22,7 @@ export function Detail() {
   let btnText = ingr ? "Hide Ingredients" : "View Ingredients";
   
   return (
-    <ScrollView>
+    <View>
       <Fab
           position="topLeft"
           onPress={() => navigation.goBack()}
@@ -31,6 +31,9 @@ export function Detail() {
         >
           <Icon ios="ios-arrow-back" android="md-arrow-back" type="Ionicons" />
         </Fab>
+    
+    <ScrollView>
+      
       <View style={styles.view}>
         <Pager style={styles.pagerStyle}>
           {recipe.photosArray.map((item, index) => {//display child images of viewpager
@@ -77,6 +80,7 @@ export function Detail() {
         
       </View>
     </ScrollView>
+    </View>
   );
 }
 
